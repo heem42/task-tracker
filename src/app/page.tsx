@@ -1,4 +1,5 @@
 import Todos from '@/components/todos/todos';
+import { Button } from '@/components/ui/button';
 
 import { trpcServer } from '@/lib/trpc-clients/server';
 
@@ -6,11 +7,9 @@ export default async function Home() {
   const todos = await trpcServer.getTodos();
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <p className="fixed left-0 top-0 flex w-full border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit">
-        Todo List
-      </p>
+    <>
+      <Button className="float-right">Add +</Button>
       <Todos initialTodos={todos} />
-    </main>
+    </>
   );
 }
