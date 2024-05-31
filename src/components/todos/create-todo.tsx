@@ -46,7 +46,7 @@ export default function CreateTodo() {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger className="bg-black text-white px-5 py-1 rounded-md fixed right-5 bottom-5 md:static md:float-right">Add +</DialogTrigger>
-      <DialogContent>
+      <DialogContent className="fixed top-60">
         <DialogHeader>
           <DialogTitle className="mb-5">Add New Todo</DialogTitle>
           <Label htmlFor="description">

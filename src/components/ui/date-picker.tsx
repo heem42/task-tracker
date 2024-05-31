@@ -39,7 +39,6 @@ export default function DatePicker({ date, onUserSelectDate }: Props) {
           mode="single"
           selected={date}
           onSelect={onUserSelectDate}
-          initialFocus
         />
       </PopoverContent>
     </Popover>
