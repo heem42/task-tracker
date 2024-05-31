@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { LoaderIcon } from 'lucide-react';
+import moment from 'moment';
 
 import { Button } from '@/components/ui/button';
 import DatePicker from '@/components/ui/date-picker';
@@ -17,11 +19,9 @@ import { Label } from '@/components/ui/label';
 import EditIcon from '@/components/svg/edit.svg';
 import { trpc } from '@/lib/trpc-clients/client';
 import { getISODate } from '@/lib/utils';
+import { TodoType } from '@/schema/todo';
 
 import { onUserSelectDateType } from './types';
-import { TodoType } from '@/schema/todo';
-import moment from 'moment';
-import { LoaderIcon } from 'lucide-react';
 
 interface Props {
   todo: TodoType

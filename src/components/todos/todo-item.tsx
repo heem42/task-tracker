@@ -1,13 +1,14 @@
 'use client';
 
-import moment from 'moment';
-
-import { TodoType } from '@/schema/todo'
 import { useState } from 'react';
-import { Checkbox } from '../ui/checkbox';
+
+import { Checkbox } from '@/components/ui/checkbox';
 import { trpc } from '@/lib/trpc-clients/client';
-import UpdateTodo from './update-todo';
+import { TodoType } from '@/schema/todo'
+
 import DeleteTodoButton from './delete-todo-btn';
+import UpdateTodo from './update-todo';
+import { getDeadlineString } from '@/lib/utils';
 
 interface Props {
   todo: TodoType
@@ -31,7 +32,7 @@ export default function TodoItem({ todo }: Props) {
         <Checkbox checked={isComplete} onCheckedChange={onCheckedChange} />
       </td>
       <td scope="row" data-label="Description">{todo.description}</td>
-      <td data-label="Deadline">{moment(todo.date).fromNow()}</td>
+      <td data-label="Deadline">{getDeadlineString(todo.date)}</td>
       <td className="w-full">
         <DeleteTodoButton todo={todo} />
         <UpdateTodo todo={todo} />

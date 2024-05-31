@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { LoaderIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import DatePicker from '@/components/ui/date-picker';
@@ -18,7 +19,6 @@ import { trpc } from '@/lib/trpc-clients/client';
 import { getISODate } from '@/lib/utils';
 
 import { onUserSelectDateType } from './types';
-import { LoaderIcon } from 'lucide-react';
 
 export default function CreateTodo() {
   const [date, setDate] = useState<Date>(new Date());
