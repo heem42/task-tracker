@@ -22,9 +22,6 @@ NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
 NEXT_PUBLIC_FIREBASE_APP_ID=
 NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=
-
-NEXT_PUBLIC_BASE_URL="http://localhost:3000"
-
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

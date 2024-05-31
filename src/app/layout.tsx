@@ -8,7 +8,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Todo App",
+  title: "Task Tracker",
   description: "An application that allows you to manage all your tasks",
 };
 
