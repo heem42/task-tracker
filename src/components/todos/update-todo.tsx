@@ -14,41 +14,51 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import EditIcon from '@/components/svg/edit.svg';
 import { trpc } from '@/lib/trpc-clients/client';
 import { getISODate } from '@/lib/utils';
 
 import { onUserSelectDateType } from './types';
+import { TodoType } from '@/schema/todo';
+import moment from 'moment';
 import { LoaderIcon } from 'lucide-react';
 
-export default function CreateTodo() {
-  const [date, setDate] = useState<Date>(new Date());
-  const [description, setDescription] = useState('');
-  const [isBeingSubmitted, setIsBeingSubmitted] = useState(false);
+interface Props {
+  todo: TodoType
+}
+
+export default function UpdateTodo({ todo }: Props) {
+  const [date, setDate] = useState<Date>(moment(todo.date).toDate());
+  const [description, setDescription] = useState(todo.description);
+  const [isBeingUpdated, setIsBeingUpdated] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const utils = trpc.useUtils();
-  const todoMutation = trpc.createTodo.useMutation();
+  const updateMutation = trpc.updateTodo.useMutation();
+  
 
   const onUserSelectDate: onUserSelectDateType = (selectedDate) => {
     selectedDate && setDate(selectedDate);
   }
 
-  const onCreateTodo = () => {
-    setIsBeingSubmitted(true);
-    todoMutation.mutate({ description, date: getISODate(date) }, {
+  const onUpdateTodo = () => {
+    setIsBeingUpdated(true);
+    updateMutation.mutate({ id: todo.id, description, date: getISODate(date) }, {
       onSuccess: () => {
-        utils.getTodos.invalidate()
-        setIsBeingSubmitted(false);
+        utils.getTodos.invalidate();
+        setIsBeingUpdated(false);
         setIsDialogOpen(false);
-      }
+      },
     });
   }
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <DialogTrigger className="bg-black text-white px-5 py-1 rounded-md fixed right-5 bottom-5 md:static md:float-right">Add +</DialogTrigger>
+      <DialogTrigger>
+        <EditIcon className="w-25 h-25 inline-block" />
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="mb-5">Add New Todo</DialogTitle>
+          <DialogTitle className='mb-5'>Update Todo</DialogTitle>
           <Label htmlFor="description">
             Description
           </Label>
@@ -64,13 +74,14 @@ export default function CreateTodo() {
           <DatePicker date={date} onUserSelectDate={onUserSelectDate} />
         </DialogHeader>
         <DialogFooter>
-          <Button onClick={onCreateTodo}>
-            {isBeingSubmitted ? (
-              <LoaderIcon />
+          <Button disabled={isBeingUpdated} onClick={onUpdateTodo}>
+            {isBeingUpdated ? (
+              <>
+                <LoaderIcon className="" />
+              </>
             ) : (
-              <>Submit</>
-            )
-            }
+              <>Update</>
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>

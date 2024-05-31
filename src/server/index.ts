@@ -1,4 +1,4 @@
-import { addDoc, collection, getDocs, getFirestore } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDocs, getFirestore, updateDoc } from 'firebase/firestore';
 
 import { FirebaseApp } from '@/firebase/config';
 import { TodoSchema, TodoType } from '@/schema/todo';
@@ -33,6 +33,32 @@ export const appRouter = router({
         await addDoc(collection(db, TODOS_COLLECTION), input);
       } catch (e) {
         console.error("Error adding a todo: ", e);
+      }
+    }),
+  updateTodo: publicProcedure
+    .input(TodoSchema)
+    .mutation(async (opts) => {
+      try {
+        const { input } = opts;
+        const docRef = input.id && doc(db, TODOS_COLLECTION, input.id);
+        if (docRef) {
+          await updateDoc(docRef, input);
+        }
+      } catch (e) {
+        console.error('Error updating a todo', e);
+      }
+    }),
+  deleteTodo: publicProcedure
+    .input(TodoSchema.pick({ id: true }))
+    .mutation(async (opts) => {
+      try {
+        const { input } = opts;
+        const docRef = input.id && doc(db, TODOS_COLLECTION, input.id);
+        if (docRef) {
+          await deleteDoc(docRef);
+        }
+      } catch (e) {
+        console.error('Error deleting a todo', e);
       }
     })
 });

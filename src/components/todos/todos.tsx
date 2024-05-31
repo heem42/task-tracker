@@ -23,8 +23,8 @@ export default function Todos({
         <caption>Todo List</caption>
         <thead>
           <tr>
-            <th scope="col">Description</th>
             <th scope="col">Status</th>
+            <th scope="col">Description</th>
             <th scope="col">Deadline</th>
           </tr>
         </thead>
