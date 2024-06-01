@@ -16,12 +16,14 @@ interface Props {
 
 export default function TodoItem({ todo }: Props) {
   const [isComplete, setIsComplete] = useState(todo.isComplete);
+  const utils = trpc.useUtils();
   const updateMutation = trpc.updateTodo.useMutation();
 
   const onCheckedChange = (isChecked: boolean) => {
     updateMutation.mutate({ ...todo, isComplete: isChecked }, {
       onSuccess: () => {
         setIsComplete(isChecked);
+        utils.getTodos.invalidate();
       }
     });
   }

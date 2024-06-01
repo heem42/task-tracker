@@ -16,7 +16,6 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { trpc } from '@/lib/trpc-clients/client';
-import { getISODate } from '@/lib/utils';
 
 import { onUserSelectDateType } from './types';
 
@@ -34,7 +33,7 @@ export default function CreateTodo() {
 
   const onCreateTodo = () => {
     setIsBeingSubmitted(true);
-    todoMutation.mutate({ description, date: getISODate(date) }, {
+    todoMutation.mutate({ description, date }, {
       onSuccess: () => {
         utils.getTodos.invalidate()
         setIsBeingSubmitted(false);

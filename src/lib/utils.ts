@@ -6,11 +6,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function getISODate(date: Date) {
-  return date.toISOString().split('T')[0];
-}
-
-export function getDeadlineString(date: string) {
+export function getDeadlineString(date: Date) {
   const days = moment().diff(date, 'days');
 
   switch (days) {

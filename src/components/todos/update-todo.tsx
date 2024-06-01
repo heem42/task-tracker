@@ -18,7 +18,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import EditIcon from '@/components/svg/edit.svg';
 import { trpc } from '@/lib/trpc-clients/client';
-import { getISODate } from '@/lib/utils';
 import { TodoType } from '@/schema/todo';
 
 import { onUserSelectDateType } from './types';
@@ -42,7 +41,7 @@ export default function UpdateTodo({ todo }: Props) {
 
   const onUpdateTodo = () => {
     setIsBeingUpdated(true);
-    updateMutation.mutate({ id: todo.id, description, date: getISODate(date) }, {
+    updateMutation.mutate({ id: todo.id, description, date }, {
       onSuccess: () => {
         utils.getTodos.invalidate();
         setIsBeingUpdated(false);
@@ -56,7 +55,7 @@ export default function UpdateTodo({ todo }: Props) {
       <DialogTrigger>
         <EditIcon className="w-25 h-25 inline-block" />
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="fixed top-60">
         <DialogHeader>
           <DialogTitle className='mb-5'>Update Todo</DialogTitle>
           <Label htmlFor="description">

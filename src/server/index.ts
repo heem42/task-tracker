@@ -1,7 +1,7 @@
-import { addDoc, collection, deleteDoc, doc, getDocs, getFirestore, updateDoc } from 'firebase/firestore';
+import { Timestamp, addDoc, collection, deleteDoc, doc, getDocs, getFirestore, orderBy, query, updateDoc } from 'firebase/firestore';
 
 import { FirebaseApp } from '@/firebase/config';
-import { TodoSchema, TodoType } from '@/schema/todo';
+import { TodoSchema } from '@/schema/todo';
 
 import { publicProcedure, router } from './trpc';
 import { TODOS_COLLECTION } from './constants';
@@ -12,12 +12,14 @@ export const appRouter = router({
   getTodos: publicProcedure
     .query(async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, TODOS_COLLECTION));
+        const fetchTodosQuery = query(collection(db, TODOS_COLLECTION), orderBy('isComplete'), orderBy('date'))
+        const querySnapshot = await getDocs(fetchTodosQuery);
         return querySnapshot.docs.map(doc => {
-          const data = doc.data() as Omit<TodoType, "id">;
+          const data = doc.data();
           const todo = {
+            ...data,
             id: doc.id,
-            ...data
+            date: (new Timestamp(data.date.seconds, data.date.nanoseconds).toDate()) as Date,
           }
           return TodoSchema.parse(todo);
         });
