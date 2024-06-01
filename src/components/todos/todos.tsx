@@ -11,11 +11,13 @@ export default function Todos({
 }: {
   initialTodos: Awaited<ReturnType<(typeof trpcServer)['getTodos']>>
 }){
-  const getTodos = trpc.getTodos.useQuery(undefined, {
-    initialData: initialTodos,
+  const todos = trpc.getTodos.useQuery(undefined, {
+    // TODO: trpc is inferring wrong data type for getTodos. Temporarily marking as 'any' type
+    initialData: initialTodos as any,
     refetchOnMount: false,
     refetchOnReconnect: false
-  });
+  })?.data as Awaited<ReturnType<(typeof trpcServer)['getTodos']>>;
+
 
   return (
     <>
@@ -29,7 +31,7 @@ export default function Todos({
           </tr>
         </thead>
         <tbody>
-          {getTodos?.data?.map(todo => 
+          {todos?.map(todo =>
             <TodoItem key={todo.id} todo={todo} />
           )}
         </tbody>
