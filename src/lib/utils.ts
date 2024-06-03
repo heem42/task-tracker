@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getDeadlineString(date: Date) {
-  const days = moment().diff(date, 'days');
+  const days = moment().startOf('day').diff(date, 'days');
 
   switch (days) {
     case -1: {
